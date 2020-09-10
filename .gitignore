@@ -26,3 +26,5 @@ hs_err_pid*
 /.idea/
 /Scrapy_Project/venv/
 *.DS_Store
+/venv/
+/Scrapy_Project/.idea/
