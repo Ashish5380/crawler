@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, VARCHAR, SmallInteger, DateTime
 from sqlalchemy.ext.declarative import declarative_base
+from datetime import datetime
 
 Base = declarative_base()
 
@@ -25,5 +26,9 @@ class AmazonData(Base):
         self.product_name = data[2]
         self.product_link = data[3]
         self.review_links = data[4]
+        self.created_at = datetime.now()
+        self.created_by = 93271
+        self.updated_at = datetime.now()
+        self.updated_by = 93271
 
 

@@ -2,7 +2,6 @@ from sqlalchemy.orm import sessionmaker
 from Scrapy_Project.amazonreview.utils.mysqlutils import MysqlUtil
 from Scrapy_Project.amazonreview.config.spreadsheet import AmazonLinks
 from Scrapy_Project.amazonreview.models.amazon_data import AmazonData
-from datetime import datetime
 
 
 class SheetToSql(MysqlUtil, AmazonLinks):
@@ -17,10 +16,7 @@ class SheetToSql(MysqlUtil, AmazonLinks):
         session = sessionmaker(bind=self.db_engine)()
         for row in spreadsheet_data:
             data = AmazonData(row)
-            data.created_at = datetime.now()
-            data.created_by = 93271
-            data.updated_at = datetime.now()
-            data.updated_by = 93271
             session.add(data)
             session.commit()
+
         sessionmaker.close_all()
