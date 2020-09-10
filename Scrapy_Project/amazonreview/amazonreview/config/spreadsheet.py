@@ -6,7 +6,6 @@ class AmazonLinks:
     def __init__(self):
         self.client = self.create_client()
         self.data = self.get_all_values_from_sheet()
-        print(self.values)
 
     def create_client(self):
         return gspread.service_account('../../AmazonLink-e2dbc198a2b4.json')

@@ -29,4 +29,3 @@ class MysqlUtil:
 
         if self.od_write_db_engine is None:
             self.od_write_db_engine = self.get_db_engine(self.generate_config())
-
