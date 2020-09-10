@@ -13,7 +13,7 @@ import ast
 class AmazonreviewPipeline(MysqlUtil):
 
     def __init__(self, mysql_util):
-        self.connection = mysql_util.od_read_db_engine
+        self.connection = mysql_util.db_engine
 
     def store_db(self, item):
         print("Going to store data to db")

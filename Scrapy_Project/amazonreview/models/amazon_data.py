@@ -25,3 +25,5 @@ class AmazonData(Base):
         self.product_name = data[2]
         self.product_link = data[3]
         self.review_links = data[4]
+
+

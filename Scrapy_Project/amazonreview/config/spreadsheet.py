@@ -3,9 +3,8 @@ import gspread
 class AmazonLinks:
 
     def __init__(self):
-        self.client = gspread.service_account('../AmazonLink-e2dbc198a2b4.json')
+        self.client = gspread.service_account('./amazonreview/AmazonLink-e2dbc198a2b4.json')
         self.data = self.get_all_values_from_sheet()
-        print(self.data)
 
     """ gets all data from all spread sheet and puts it in a dictionary"""
     def get_all_values_from_sheet(self):
