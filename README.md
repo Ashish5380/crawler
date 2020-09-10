@@ -1,2 +1,2 @@
-# crawler
-Crawling amazon
+# onedirect-amazon-crawler
+Crawling amazon for reviews
