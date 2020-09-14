@@ -1,6 +1,7 @@
 from Scrapy_Project.amazonreview.config.spreadsheet import AmazonLinks
 from Scrapy_Project.amazonreview.models.amazon_data import AmazonData
 from Scrapy_Project.amazonreview.utils.mysqlutils import MysqlUtil
+from Scrapy_Project.amazonreview.utils.logger import logger
 
 from sqlalchemy.orm import sessionmaker
 
@@ -21,6 +22,6 @@ class SheetToSql(MysqlUtil, AmazonLinks):
                 session.add(data)
                 session.commit()
             except Exception as ex:
-                print("Exception Occurred while saving sheet data: {0} to DB with stack trace {1}".format(row, ex))
+                logger.info("Exception Occurred while saving sheet data: {0} to DB with stack trace {1}".format(row, ex))
 
         sessionmaker.close_all()
