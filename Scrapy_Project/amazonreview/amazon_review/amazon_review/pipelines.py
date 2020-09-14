@@ -8,6 +8,7 @@
 from Scrapy_Project.amazonreview.models.amazon_review import AmazonReview
 from Scrapy_Project.amazonreview.utils.mysqlutils import MysqlUtil
 
+from datetime import datetime, timedelta
 from sqlalchemy.orm import sessionmaker
 import hashlib
 
@@ -15,12 +16,23 @@ import hashlib
 class AmazonReviewPipeline(MysqlUtil):
 
     def __init__(self, mysql_util):
+        super().__init__()
         self.db_engine = mysql_util.db_engine
 
     def process_item(self, data, spider):
         print("Pipeline processing started.")
-        amazon_review_data = self.generate_amazon_review_data(data)
-        self.store_db(data=amazon_review_data)
+        if self.check_for_time_validity(data):
+            amazon_review_data = self.generate_amazon_review_data(data)
+            self.store_db(data=amazon_review_data)
+        else:
+            print("Time check not passed for the data {0}". format(data))
+
+    @classmethod
+    def check_for_time_validity(cls, data):
+        check_date = (datetime.today() - timedelta(days=1)).strftime()
+        if check_date < data['posted_dates']:
+            return True
+        return False
 
     @classmethod
     def generate_amazon_review_data(cls, scrapped_data):
