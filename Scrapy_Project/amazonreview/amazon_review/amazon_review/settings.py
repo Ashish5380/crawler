@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-# Scrapy settings for amazonreview project
+# Scrapy settings for amazon_review project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,14 +7,14 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'amazonreview'
+BOT_NAME = 'amazon_review'
 
-SPIDER_MODULES = ['amazonreview.spiders']
-NEWSPIDER_MODULE = 'amazonreview.spiders'
+SPIDER_MODULES = ['amazon_review.spiders']
+NEWSPIDER_MODULE = 'amazon_review.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'amazonreview (+http://www.yourdomain.com)'
+#USER_AGENT = 'amazon_review (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -47,13 +45,13 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'amazonreview.middlewares.AmazonreviewSpiderMiddleware': 543,
+#    'amazon_review.middlewares.AmazonReviewSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'amazonreview.middlewares.AmazonreviewDownloaderMiddleware': 543,
+#    'amazon_review.middlewares.AmazonReviewDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -65,7 +63,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'amazonreview.pipelines.AmazonreviewPipeline': 300,
+   'amazon_review.pipelines.AmazonReviewPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
