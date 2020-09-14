@@ -1,10 +1,11 @@
+from __future__ import absolute_import
 import ast
 import re
 
 import scrapy
 from dateutil.parser import parse
 
-from ..items import AmazonReviewItem
+from ama import AmazonReviewItem
 
 
 class ReviewSpider(scrapy.Spider):

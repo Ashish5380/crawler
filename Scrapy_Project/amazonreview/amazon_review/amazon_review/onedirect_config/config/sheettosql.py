@@ -1,6 +1,6 @@
-from Scrapy_Project.amazonreview.config.spreadsheet import AmazonLinks
-from Scrapy_Project.amazonreview.models.amazon_data import AmazonData
-from Scrapy_Project.amazonreview.utils.mysqlutils import MysqlUtil
+from Scrapy_Project.amazonreview.amazon_review.amazon_review.onedirect_config import AmazonLinks
+from Scrapy_Project.amazonreview.amazon_review.amazon_review.onedirect_config import AmazonData
+from Scrapy_Project.amazonreview.amazon_review.amazon_review.onedirect_config import MysqlUtil
 
 from sqlalchemy.orm import sessionmaker
 
