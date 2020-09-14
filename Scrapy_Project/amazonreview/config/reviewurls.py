@@ -11,8 +11,9 @@ class ReviewUrls:
         session = sessionmaker(bind=self.db_engine)
         try:
             records = session().query(AmazonData).all()
+            for row in records:
+                urls.append(row.product_link)
         except Exception as ex:
             logger.error("Error reading Amazon data records from DB")
-        for row in records:
-            urls.append(row.product_link)
+
         return urls
