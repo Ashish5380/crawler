@@ -5,8 +5,8 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
-from Scrapy_Project.amazonreview.models.amazon_review import AmazonReview
-from Scrapy_Project.amazonreview.utils.mysqlutils import MysqlUtil
+from Scrapy_Project.onedirect_config.models.amazon_review import AmazonReview
+from Scrapy_Project.onedirect_config.utils.mysqlutils import MysqlUtil
 
 from datetime import datetime, timedelta
 from sqlalchemy.orm import sessionmaker
