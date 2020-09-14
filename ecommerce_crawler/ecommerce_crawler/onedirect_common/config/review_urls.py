@@ -6,8 +6,11 @@ from ecommerce_crawler.onedirect_common.utils.mysqlutils import MysqlUtil
 
 class ReviewUrls:
 
+    db_engine = None
+
     def __init__(self):
         self.urls = self.read_all_urls()
+        self.db_engine = MysqlUtil().db_engine
 
     def read_all_urls(self):
         urls = []
