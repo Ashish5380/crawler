@@ -1,5 +1,6 @@
 import gspread
 
+
 class AmazonLinks:
 
     def __init__(self):
