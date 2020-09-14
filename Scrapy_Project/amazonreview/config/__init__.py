@@ -1,2 +1,0 @@
-def AmazonLinks():
-    return None
