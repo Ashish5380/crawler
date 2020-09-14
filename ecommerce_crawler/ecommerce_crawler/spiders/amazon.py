@@ -3,25 +3,24 @@ import ast
 import scrapy
 #from dateutil.parser import parse
 
-from ecommerce_crawler.oendirect_common.utility.hello import hello
-
+from ecommerce_crawler.onedirect_common.config.review_urls import ReviewUrls
+from ecommerce_crawler.onedirect_common.utils.logger import logger
 from ecommerce_crawler.amazon_crawler.items import AmazonReviewItem
 
 
 class AmazonSpider(scrapy.Spider):
-    hello()
     name = 'amazon'
     allowed_domains = ['amazon.in']
-    start_urls = ['http://amazon.in/']
+    start_urls = ReviewUrls().read_all_urls()
 
     def parse(self, response, **kwargs):
         item = AmazonReviewItem()
 
-        self.logger.info('A response from %s just arrived!', response.url)
+        logger.info('A response from %s just arrived!', response.url)
 
         data = response.css('#cm_cr-review_list')
 
-        self.logger.info("Data fetched from amazon page :: {0}".format(data))
+        logger.info("Data fetched from amazon page :: {0}".format(data))
 
         star_rating = data.css('.review-rating')
 
