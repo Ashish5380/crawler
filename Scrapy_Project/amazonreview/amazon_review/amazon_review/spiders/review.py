@@ -1,17 +1,17 @@
-import ast
-import re
+from Scrapy_Project.amazonreview.config.reviewurls import ReviewUrls
+from ..items import AmazonReviewItem
 
-import scrapy
 from dateutil.parser import parse
 
-from ..items import AmazonReviewItem
+import ast
+import re
+import scrapy
 
 
 class ReviewSpider(scrapy.Spider):
     name = 'reviews'
     allowed_domains = ['amazon.in']
-    start_urls = [
-        'https://www.amazon.in/Croma-Solo-Microwave-Oven-CRM2025/product-reviews/B00FA0B90A/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews']
+    start_urls = ReviewUrls.read_all_urls()
 
     def parse(self, response):
         item = AmazonReviewItem()
@@ -66,5 +66,3 @@ class ReviewSpider(scrapy.Spider):
                 callback=self.parse
 
             )
-
-
