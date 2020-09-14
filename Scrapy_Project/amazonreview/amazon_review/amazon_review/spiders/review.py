@@ -3,6 +3,7 @@ import re
 
 import scrapy
 from dateutil.parser import parse
+from Scrapy_Project.amazonreview.utils.logger import logger
 
 from ..items import AmazonReviewItem
 
@@ -16,11 +17,11 @@ class ReviewSpider(scrapy.Spider):
     def parse(self, response):
         item = AmazonReviewItem()
 
-        self.logger.info('A response from %s just arrived!', response.url)
+        logger.info('A response from %s just arrived!', response.url)
 
         data = response.css('#cm_cr-review_list')
 
-        self.logger.info("Data fetched from amazon page :: {0}".format(data))
+        logger.info("Data fetched from amazon page :: {0}".format(data))
 
         star_rating = data.css('.review-rating')
 
