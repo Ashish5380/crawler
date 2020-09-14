@@ -1,25 +1,20 @@
-# -*- coding: utf-8 -*-
-import scrapy
-
-from amazonreview import items, spreadsheet
-
-
+import ast
 import re
 
-import ast
-
-
+import scrapy
 from dateutil.parser import parse
 
+from ..items import AmazonReviewItem
 
-class AmazonSpiderSpider(scrapy.Spider):
+
+class ReviewSpider(scrapy.Spider):
     name = 'reviews'
     allowed_domains = ['amazon.in']
-    brand_id = link_instance.get_all_amazon_brand()
-    start_urls = ['https://www.amazon.in/Croma-Solo-Microwave-Oven-CRM2025/product-reviews/B00FA0B90A/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews']
+    start_urls = [
+        'https://www.amazon.in/Croma-Solo-Microwave-Oven-CRM2025/product-reviews/B00FA0B90A/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews']
 
     def parse(self, response):
-        item = items.AmazonreviewItem()
+        item = AmazonReviewItem()
 
         self.logger.info('A response from %s just arrived!', response.url)
 
@@ -56,7 +51,7 @@ class AmazonSpiderSpider(scrapy.Spider):
             date = attr[3].xpath('.//text()').extract()
             dt = re.sub("Reviewed in India on ", "", str(date))
             dt = ast.literal_eval(dt)
-            #print(" DT" + dt)
+            # print(" DT" + dt)
             da = parse(dt[0])
             item["posted_dates"] = da.strftime('%Y-%m-%d %H:%M:%S')
             yield item
@@ -71,4 +66,5 @@ class AmazonSpiderSpider(scrapy.Spider):
                 callback=self.parse
 
             )
+
 

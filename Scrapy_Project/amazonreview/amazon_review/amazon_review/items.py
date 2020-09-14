@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # Define here the models for your scraped items
 #
 # See documentation in:
@@ -8,7 +6,7 @@
 from scrapy.item import Item, Field
 
 
-class AmazonreviewItem(Item):
+class AmazonReviewItem(Item):
     star_rating = Field()
     rating_text = Field()
     author = Field()
