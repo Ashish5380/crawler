@@ -2,7 +2,7 @@ import logging
 import logging.handlers
 
 # task logger
-LOG_FILENAME = '/opt/akoshalogs/amazoncrawler.log'
+LOG_FILENAME = '/opt/akoshalogs/amazoncrawler/amazoncrawler.log'
 logger = logging.getLogger('Logger')
 logger.setLevel(logging.INFO)
 file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(funcName)s - %(message)s")
