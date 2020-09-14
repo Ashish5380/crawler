@@ -1,5 +1,5 @@
 from Scrapy_Project.amazonreview.config.reviewurls import ReviewUrls
-from ..items import AmazonReviewItem
+from Scrapy_Project.amazonreview.amazon_review.amazon_review.items import AmazonReviewItem
 
 from dateutil.parser import parse
 from Scrapy_Project.amazonreview.utils.logger import logger
@@ -12,7 +12,7 @@ import scrapy
 class ReviewSpider(scrapy.Spider):
     name = 'reviews'
     allowed_domains = ['amazon.in']
-    start_urls = ReviewUrls.read_all_urls()
+    start_urls = ReviewUrls().read_all_urls()
 
     def parse(self, response):
         item = AmazonReviewItem()

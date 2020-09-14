@@ -1,10 +1,15 @@
 from Scrapy_Project.amazonreview.models.amazon_data import AmazonData
 from Scrapy_Project.amazonreview.utils.logger import logger
+from Scrapy_Project.amazonreview.utils.mysqlutils import MysqlUtil
 
 from sqlalchemy.orm import sessionmaker
 
 
 class ReviewUrls:
+
+    def __init__(self):
+        super().__init__()
+        self.db_engine = MysqlUtil().db_engine
 
     def read_all_urls(self):
         urls = []
