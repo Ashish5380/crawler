@@ -34,7 +34,7 @@ class AmazonReview(Base):
         self.review_link = review_data.get("review_link")
         self.user_profile = review_data.get("user_profile")
         self.verified_user = review_data.get("verified_user")
-        self.review_text_hash = review_data.get("review_text_hash")
+        self.review_hash = review_data.get("review_text_hash")
         self.product_id = review_data.get("product_id") if review_data.get("product_id") else 1
         self.status = 1
         self.created_at = datetime.now()
