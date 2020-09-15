@@ -1,7 +1,8 @@
 import re
 import ast
 import scrapy
-#from dateutil.parser import parse
+from scrapy import Request
+from dateutil.parser import parse
 
 from ecommerce_crawler.onedirect_common.config.review_urls import ReviewUrls
 from ecommerce_crawler.onedirect_common.utils.logger import logger
@@ -11,10 +12,22 @@ from ecommerce_crawler.amazon_crawler.items import AmazonReviewItem
 class AmazonSpider(scrapy.Spider):
     name = 'amazon'
     allowed_domains = ['amazon.in']
-    start_urls = ReviewUrls().read_all_urls()
+
+    def start_requests(self):
+        review_data = ReviewUrls().read_all_urls()
+        for data in review_data:
+            yield Request(data["review_link"],
+                          cb_kwargs={"brand_id": data["brand_id"], "product_id": data["product_id"]})
 
     def parse(self, response, **kwargs):
+        print("Hello " + str(response.cb_kwargs))
         item = AmazonReviewItem()
+
+        brand_id = response.cb_kwargs["brand_id"]
+
+        product_id = response.cb_kwargs["product_id"]
+
+        logger.info("Data fetched for brand_id :: {0} and product_id :: {1}".format(brand_id, product_id))
 
         logger.info('A response from %s just arrived!', response.url)
 
@@ -54,6 +67,8 @@ class AmazonSpider(scrapy.Spider):
             # print(" DT" + dt)
             da = parse(dt[0])
             item["posted_dates"] = da.strftime('%Y-%m-%d %H:%M:%S')
+            item["brand_id"] = brand_id
+            item["product_id"] = product_id
             yield item
 
         next_page = response.css('.a-last a ::attr(href)').extract_first()
@@ -61,5 +76,6 @@ class AmazonSpider(scrapy.Spider):
         if next_page:
             yield scrapy.Request(
                 response.urljoin(next_page),
-                callback=self.parse
+                callback=self.parse,
+                cb_kwargs=response.cb_kwargs
             )

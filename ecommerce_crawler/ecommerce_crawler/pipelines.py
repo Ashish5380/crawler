@@ -16,10 +16,10 @@ from sqlalchemy.orm import sessionmaker
 import hashlib
 
 
-class EcommerceCrawlerPipeline(MysqlUtil):
-    def __init__(self, mysql_util):
+class EcommerceCrawlerPipeline:
+    def __init__(self):
         super().__init__()
-        self.db_engine = mysql_util.db_engine
+        self.db_engine = MysqlUtil().db_engine
 
     def process_item(self, data, spider):
         logger.info("Pipeline processing started.")
