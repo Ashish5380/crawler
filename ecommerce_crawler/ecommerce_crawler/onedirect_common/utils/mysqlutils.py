@@ -26,5 +26,3 @@ class MysqlUtil:
     @classmethod
     def get_db_engine(cls, config):
         return create_engine(cls.get_mysql_url(config), pool_size=5, pool_recycle=360)
-
-

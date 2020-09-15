@@ -1,26 +1,26 @@
-import ast
 import re
-
+import ast
 import scrapy
-from dateutil.parser import parse
+#from dateutil.parser import parse
 
-from ..items import AmazonReviewItem
+from ecommerce_crawler.onedirect_common.config.review_urls import ReviewUrls
+from ecommerce_crawler.onedirect_common.utils.logger import logger
+from ecommerce_crawler.amazon_crawler.items import AmazonReviewItem
 
 
-class ReviewSpider(scrapy.Spider):
-    name = 'reviews'
+class AmazonSpider(scrapy.Spider):
+    name = 'amazon'
     allowed_domains = ['amazon.in']
-    start_urls = [
-        'https://www.amazon.in/Croma-Solo-Microwave-Oven-CRM2025/product-reviews/B00FA0B90A/ref=cm_cr_dp_d_show_all_btm?ie=UTF8&reviewerType=all_reviews']
+    start_urls = ReviewUrls().read_all_urls()
 
-    def parse(self, response):
+    def parse(self, response, **kwargs):
         item = AmazonReviewItem()
 
-        self.logger.info('A response from %s just arrived!', response.url)
+        logger.info('A response from %s just arrived!', response.url)
 
         data = response.css('#cm_cr-review_list')
 
-        self.logger.info("Data fetched from amazon page :: {0}".format(data))
+        logger.info("Data fetched from amazon page :: {0}".format(data))
 
         star_rating = data.css('.review-rating')
 
@@ -60,11 +60,6 @@ class ReviewSpider(scrapy.Spider):
 
         if next_page:
             yield scrapy.Request(
-
                 response.urljoin(next_page),
-
                 callback=self.parse
-
             )
-
-

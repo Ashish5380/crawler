@@ -30,5 +30,3 @@ class AmazonData(Base):
         self.created_by = 93271
         self.updated_at = datetime.now()
         self.updated_by = 93271
-
-

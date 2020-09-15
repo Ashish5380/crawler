@@ -1,31 +1,33 @@
-# -*- coding: utf-8 -*-
-
 # Define your item pipelines here
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
-from Scrapy_Project.amazonreview.models.amazon_review import AmazonReview
-from Scrapy_Project.amazonreview.utils.mysqlutils import MysqlUtil
 
+# useful for handling different item types with a single interface
+from ecommerce_crawler.onedirect_common.models.amazon_review import AmazonReview
+from ecommerce_crawler.onedirect_common.utils.mysqlutils import MysqlUtil
+from ecommerce_crawler.onedirect_common.utils.logger import logger
+
+
+from itemadapter import ItemAdapter
 from datetime import datetime, timedelta
 from sqlalchemy.orm import sessionmaker
 import hashlib
 
 
-class AmazonReviewPipeline(MysqlUtil):
-
+class EcommerceCrawlerPipeline(MysqlUtil):
     def __init__(self, mysql_util):
         super().__init__()
         self.db_engine = mysql_util.db_engine
 
     def process_item(self, data, spider):
-        print("Pipeline processing started.")
+        logger.info("Pipeline processing started.")
         if self.check_for_time_validity(data):
             amazon_review_data = self.generate_amazon_review_data(data)
             self.store_db(data=amazon_review_data)
         else:
-            print("Time check not passed for the data {0}". format(data))
+            logger.info("Time check not passed for the data {0}". format(data))
 
     @classmethod
     def check_for_time_validity(cls, data):
@@ -58,14 +60,14 @@ class AmazonReviewPipeline(MysqlUtil):
         try:
             review_hash = hashlib.sha256(hash_string.encode(encoding='UTF-8', errors='strict'))
         except Exception as ex:
-            print("Exception thrown while hashing string {0} with stacktrace {1}".format(hash_string, ex))
+            logger.exception("Exception thrown while hashing string {0} with stacktrace {1}".format(hash_string, ex))
         return review_hash
 
     def store_db(self, data):
         session = sessionmaker(bind=self.db_engine)()
-        print("Going to store data to DB from pipeline")
+        logger.info("Going to store data to DB from pipeline")
         try:
             session.add(data)
             session.commit()
         except Exception as ex:
-            print("Exception Occurred while saving review data: {0} to DB with stack trace {1}".format(item, ex))
+            logger.exception("Exception Occurred while saving review data: {0} to DB with stack trace {1}".format(data, ex))

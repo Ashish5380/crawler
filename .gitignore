@@ -59,8 +59,7 @@ target/
 
 
 #misc
-/venv/
+*/venv/
 /Scrapy_Project/.idea/
 .DS_Store
 .idea
-
