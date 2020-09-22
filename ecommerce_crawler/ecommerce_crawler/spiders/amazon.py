@@ -1,12 +1,12 @@
-import re
-import ast
-import scrapy
-from scrapy import Request
-from dateutil.parser import parse
-
 from ecommerce_crawler.onedirect_common.config.review_urls import ReviewUrls
 from ecommerce_crawler.onedirect_common.utils.logger import logger
 from ecommerce_crawler.amazon_crawler.items import AmazonReviewItem
+
+import re
+import ast
+import scrapy
+from dateutil.parser import parse
+from scrapy import Request
 
 
 class AmazonSpider(scrapy.Spider):
@@ -20,7 +20,6 @@ class AmazonSpider(scrapy.Spider):
                           cb_kwargs={"brand_id": data["brand_id"], "product_id": data["product_id"]})
 
     def parse(self, response, **kwargs):
-        print("Hello " + str(response.cb_kwargs))
         item = AmazonReviewItem()
 
         brand_id = response.cb_kwargs["brand_id"]
@@ -64,7 +63,6 @@ class AmazonSpider(scrapy.Spider):
             date = attr[3].xpath('.//text()').extract()
             dt = re.sub("Reviewed in India on ", "", str(date))
             dt = ast.literal_eval(dt)
-            # print(" DT" + dt)
             da = parse(dt[0])
             item["posted_dates"] = da.strftime('%Y-%m-%d %H:%M:%S')
             item["brand_id"] = brand_id
