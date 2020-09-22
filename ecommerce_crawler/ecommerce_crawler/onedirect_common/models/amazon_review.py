@@ -25,7 +25,7 @@ class AmazonReview(Base):
     updated_at = Column('updated_at', DateTime)
 
     def __init__(self, review_data):
-        self.brandId = review_data.get("brand_id")
+        self.brand_id = review_data.get("brand_id")
         self.star_rating = review_data.get("star_rating")
         self.rating_text = review_data.get("rating_text")
         self.author = review_data.get("author")

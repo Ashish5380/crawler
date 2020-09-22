@@ -9,14 +9,13 @@ from ecommerce_crawler.onedirect_common.models.amazon_review import AmazonReview
 from ecommerce_crawler.onedirect_common.utils.mysqlutils import MysqlUtil
 from ecommerce_crawler.onedirect_common.utils.logger import logger
 
-
-from itemadapter import ItemAdapter
 from datetime import datetime, timedelta
 from sqlalchemy.orm import sessionmaker
 import hashlib
 
 
 class EcommerceCrawlerPipeline:
+
     def __init__(self):
         super().__init__()
         self.db_engine = MysqlUtil().db_engine
@@ -27,12 +26,13 @@ class EcommerceCrawlerPipeline:
             amazon_review_data = self.generate_amazon_review_data(data)
             self.store_db(data=amazon_review_data)
         else:
-            logger.info("Time check not passed for the data {0}". format(data))
+            logger.info("Time check not passed for the data {0}".format(data))
 
     @classmethod
     def check_for_time_validity(cls, data):
-        check_date = (datetime.today() - timedelta(days=1)).strftime()
-        if check_date < data['posted_dates']:
+        posted_time = datetime.strptime(data['posted_dates'], '%Y-%m-%d %H:%M:%S')
+        check_time = datetime.today() - timedelta(days=30)
+        if check_time < posted_time:
             return True
         return False
 
@@ -57,8 +57,9 @@ class EcommerceCrawlerPipeline:
     @classmethod
     def generate_review_hash(cls, review_dict):
         hash_string = review_dict.get("review_header") + review_dict.get("rating_text") + review_dict.get("author")
+        review_hash = None
         try:
-            review_hash = hashlib.sha256(hash_string.encode(encoding='UTF-8', errors='strict'))
+            review_hash = hashlib.sha256(hash_string.encode(encoding='UTF-8')).hexdigest()
         except Exception as ex:
             logger.exception("Exception thrown while hashing string {0} with stacktrace {1}".format(hash_string, ex))
         return review_hash
@@ -70,4 +71,5 @@ class EcommerceCrawlerPipeline:
             session.add(data)
             session.commit()
         except Exception as ex:
-            logger.exception("Exception Occurred while saving review data: {0} to DB with stack trace {1}".format(data, ex))
+            logger.exception(
+                "Exception Occurred while saving review data: {0} to DB with stack trace {1}".format(data, ex))
