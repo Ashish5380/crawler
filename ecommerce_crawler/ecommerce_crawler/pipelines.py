@@ -31,8 +31,9 @@ class EcommerceCrawlerPipeline:
 
     @classmethod
     def check_for_time_validity(cls, data):
-        check_date = (datetime.today() - timedelta(days=1)).strftime()
-        if check_date < data['posted_dates']:
+        posted_time = datetime.strptime(data['posted_dates'], '%Y-%m-%d %H:%M:%S')
+        check_time = datetime.today() - timedelta(days=30)
+        if check_time < posted_time:
             return True
         return False
 
@@ -57,6 +58,7 @@ class EcommerceCrawlerPipeline:
     @classmethod
     def generate_review_hash(cls, review_dict):
         hash_string = review_dict.get("review_header") + review_dict.get("rating_text") + review_dict.get("author")
+        review_hash = None
         try:
             review_hash = hashlib.sha256(hash_string.encode(encoding='UTF-8', errors='strict'))
         except Exception as ex:
