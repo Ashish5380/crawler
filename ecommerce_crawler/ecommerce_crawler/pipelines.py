@@ -39,7 +39,7 @@ class EcommerceCrawlerPipeline:
     @classmethod
     def generate_amazon_review_data(cls, scrapped_data):
         review_dict = {}
-        review_dict.__setitem__("brand_id", 6221)
+        review_dict.__setitem__("brand_id", scrapped_data['brand_id'])
         review_dict.__setitem__("star_rating", scrapped_data['star_rating'][0])
         review_dict.__setitem__("rating_text", scrapped_data['rating_text'])
         review_dict.__setitem__("author", scrapped_data['author'][0])
@@ -50,7 +50,7 @@ class EcommerceCrawlerPipeline:
         review_dict.__setitem__("verified_user", scrapped_data['verified_user'][0] if len(
             scrapped_data['verified_user']) != 0 else "")
         review_dict.__setitem__("review_text_hash", cls.generate_review_hash(review_dict))
-        review_dict.__setitem__("product_id", 1)
+        review_dict.__setitem__("product_id", scrapped_data['product_id'])
         amazon_review_data = AmazonReview(review_data=review_dict)
         return amazon_review_data
 
@@ -61,7 +61,10 @@ class EcommerceCrawlerPipeline:
         try:
             review_hash = hashlib.sha256(hash_string.encode(encoding='UTF-8')).hexdigest()
         except Exception as ex:
-            logger.exception("Exception thrown while hashing string {0} with stacktrace {1}".format(hash_string, ex))
+            logger.error("Exception thrown while hashing string {0} with stacktrace {1}".format(hash_string, ex))
+        logger.info("HASH" + review_hash)
+        if review_hash is None:
+            raise Exception
         return review_hash
 
     def store_db(self, data):

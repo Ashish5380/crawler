@@ -22,3 +22,5 @@ class AmazonReviewItem(Item):
     review_link = Field()
     user_profile = Field()
     verified_user = Field()
+    brand_id = Field()
+    product_id = Field()
