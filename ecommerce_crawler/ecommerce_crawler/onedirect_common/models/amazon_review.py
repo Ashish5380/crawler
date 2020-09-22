@@ -18,7 +18,7 @@ class AmazonReview(Base):
     review_link = Column('review_link', VARCHAR)
     user_profile = Column('user_profile', VARCHAR)
     verified_user = Column('verified_user', VARCHAR)
-    review_hash = Column('review_text_hash', VARCHAR)
+    review_hash = Column('review_text_hash', VARCHAR, unique=True)
     product_id = Column('product_id', SmallInteger, default=1)
     status = Column('status', SmallInteger, default=1)
     created_at = Column('created_at', DateTime)

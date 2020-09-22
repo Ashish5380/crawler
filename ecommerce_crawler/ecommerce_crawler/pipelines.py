@@ -31,7 +31,7 @@ class EcommerceCrawlerPipeline:
     @classmethod
     def check_for_time_validity(cls, data):
         posted_time = datetime.strptime(data['posted_dates'], '%Y-%m-%d %H:%M:%S')
-        check_time = datetime.today() - timedelta(days=30)
+        check_time = datetime.today() - timedelta(days=60)
         if check_time < posted_time:
             return True
         return False
@@ -56,12 +56,15 @@ class EcommerceCrawlerPipeline:
 
     @classmethod
     def generate_review_hash(cls, review_dict):
-        hash_string = review_dict.get("review_header") + review_dict.get("rating_text") + review_dict.get("author")
+        hash_string = review_dict.get("brand_id") + review_dict.get("rating_text") + review_dict.get("author")
         review_hash = None
         try:
             review_hash = hashlib.sha256(hash_string.encode(encoding='UTF-8')).hexdigest()
         except Exception as ex:
-            logger.exception("Exception thrown while hashing string {0} with stacktrace {1}".format(hash_string, ex))
+            logger.error("Exception thrown while hashing string {0} with stacktrace {1}".format(hash_string, ex))
+        logger.info("HASH" + review_hash)
+        if review_hash is None:
+            raise Exception
         return review_hash
 
     def store_db(self, data):
