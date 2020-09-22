@@ -1,0 +1,5 @@
+build/
+egg/
+log/
+project.egg-info/
+twistd.pid
