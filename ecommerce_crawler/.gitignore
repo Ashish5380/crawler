@@ -3,3 +3,4 @@ egg/
 log/
 project.egg-info/
 twistd.pid
+dbs/
